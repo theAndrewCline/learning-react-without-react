@@ -57,10 +57,10 @@ export class App {
     ), 0)
 
     return `
-      <input id="new-todo"
+      <input class="new-todo"
         placeholder="What needs to be done?"
         value="${this.state.newTodo}">
-      <button id="add-todo">Add Todo</button>
+      <button class="add-todo">Add Todo</button>
       <ul class="todos">
         ${this.state.todosList.map((todo, i) => `
         <li class="todo">
@@ -94,17 +94,17 @@ export class App {
    * this is terrible but a vdom takes care of this problem for us
    */
   addEventListeners() {
-    const addTodoBtn = document.getElementById('add-todo')
+    const addTodoBtn = this.container.querySelector('.add-todo')
     addTodoBtn.onclick = () => {
       this.addTodo()
     }
 
-    const newTodoInput = document.getElementById('new-todo')
+    const newTodoInput = this.container.querySelector('.new-todo')
     newTodoInput.onchange = () => {
       this.updateNewTodo(newTodoInput.value)
     }
 
-    const todoCheckboxes = document.querySelectorAll('.todo__completed-checkbox')
+    const todoCheckboxes = this.container.querySelectorAll('.todo__completed-checkbox')
     todoCheckboxes.forEach(checkbox => {
       const index = Number(checkbox.dataset.key)
       checkbox.onclick = () => {
@@ -112,7 +112,7 @@ export class App {
       }
     })
 
-    const removeTodoButtons = document.querySelectorAll('.remove-todo')
+    const removeTodoButtons = this.container.querySelectorAll('.remove-todo')
     removeTodoButtons.forEach(btn => {
       const index = Number(btn.dataset.key)
       btn.onclick = () => {
@@ -121,7 +121,7 @@ export class App {
     })
   }
 
-  // the following are just helper functions
+  // the following are just helper functions for this class
   init() {
     this.update()
   }
