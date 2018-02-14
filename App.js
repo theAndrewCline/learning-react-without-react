@@ -1,6 +1,7 @@
 export class App {
   constructor(domContainer) {
     this.state = {
+      nextId: 2,
       todosList: [{
         id: 0,
         action: 'Get milk',
@@ -25,22 +26,18 @@ export class App {
     }))
   }
 
-  updateNewTodo(newTodo) {
-    this.setState(_ => ({
-      newTodo
-    }))
-  }
-
-  addTodo() {
+  addTodo(newTodo) {
     const todosList = [...this.state.todosList]
     todosList.push({
-      action: this.state.newTodo,
-      completed: false
+      action: newTodo,
+      completed: false,
+      id: this.state.nextId
     })
 
     this.setState(_ => ({
       todosList,
-      newTodo: ''
+      newTodo: '',
+      nextId: this.state.nextId + 1
     }))
   }
 
@@ -127,8 +124,8 @@ export class App {
       <div class="app-container">
         <input class="new-todo"
           placeholder="What needs to be done?"
+          autofocus
           value="${this.state.newTodo}">
-        <button class="add-todo">Add Todo</button>
         <ul class="todos">
           ${this.filterList().map(todo => `
           <li class="todo">
@@ -180,14 +177,9 @@ export class App {
    * because we get it solved for free when using React or similar vdom library
    */
   addEventListeners() {
-    const addTodoBtn = this.container.querySelector('.add-todo')
-    addTodoBtn.onclick = () => {
-      this.addTodo()
-    }
-
     const newTodoInput = this.container.querySelector('.new-todo')
     newTodoInput.onchange = () => {
-      this.updateNewTodo(newTodoInput.value)
+      this.addTodo(newTodoInput.value)
     }
 
     const todoCheckboxes = this.container.querySelectorAll('.todo__completed-checkbox')
@@ -228,5 +220,6 @@ export class App {
   update() {
     this.container.innerHTML = this.render()
     this.addEventListeners()
+    this.container.querySelector('.new-todo').focus()
   }
 }
