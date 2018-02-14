@@ -17,8 +17,9 @@ export class App {
     this.container = domContainer
   }
 
-  toggleCompleted(index) {
+  toggleCompleted(id) {
     const todosList = [...this.state.todosList]
+    const index = todosList.findIndex(todo => todo.id === id)
     todosList[index].completed = !todosList[index].completed
 
     this.setState(_ => ({
@@ -184,9 +185,9 @@ export class App {
 
     const todoCheckboxes = this.container.querySelectorAll('.todo__completed-checkbox')
     todoCheckboxes.forEach(checkbox => {
-      const index = Number(checkbox.dataset.key)
+      const id = Number(checkbox.dataset.key)
       checkbox.onclick = () => {
-        this.toggleCompleted(index)
+        this.toggleCompleted(id)
       }
     })
 
