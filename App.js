@@ -75,7 +75,19 @@ export class App {
           </li>
           `).join('')}
         </ul>
-        <span class="todos-completed-count">${completed} items left</span>
+        <div class="app-bottom-row">
+          <span class="todos-completed-count">
+            ${completed} items left
+          </span>
+          <div class="todos-filter">
+            <button class="filter-btn">All</button>
+            <button class="filter-btn">Active</button>
+            <button class="filter-btn">Completed</button>
+          </div>
+          <span class="clear-completed">
+            Clear Completed
+          </span>
+        </div>
       </div>
     `
   }

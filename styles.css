@@ -16,6 +16,7 @@ html, body {
 .app-container {
   background-color: #ffffff;
   margin: auto;
+  padding-bottom: 15px;
   width: 550px;
   font-size: 1.5em;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
@@ -70,4 +71,22 @@ html, body {
   font-family: Roboto, sans-serif;
   border: none;
   background: none;
+}
+
+.app-bottom-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.todos-filter {
+  display: flex;
+}
+
+.filter-btn {
+  margin: 0 10px;
+}
+
+.clear-completed {
+  font-size: 0.5em;
 }
