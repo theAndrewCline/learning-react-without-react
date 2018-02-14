@@ -55,6 +55,20 @@ export class App {
     }))
   }
 
+  clearCompleted(todosCompleted) {
+    const todosList = [...this.state.todosList]
+
+    for (let i=todosCompleted.length-1; i >= 0; i-=1) {
+      const id = todosCompleted[i].id
+      const index = todosList.findIndex(todo => todo.id === id)
+      todosList.splice(index, 1)
+    }
+
+    this.setState(_ => ({
+      todosList
+    }))
+  }
+
   filterList() {
     return this.state.todosList.filter(todo => {
       switch (this.state.filter) {
@@ -198,6 +212,12 @@ export class App {
         this.changeFilter(evt)
       }
     })
+
+    const clearCompletedBtn = this.container.querySelector('.clear-completed')
+    clearCompletedBtn.onclick = () => {
+      const completedTodos = this.state.todosList.filter(todo => todo.completed)
+      this.clearCompleted(completedTodos)
+    }
   }
 
   // the following are just helper functions for this class
