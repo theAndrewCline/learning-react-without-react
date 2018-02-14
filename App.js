@@ -72,10 +72,13 @@ export class App {
       switch (this.state.filter) {
         case "all":
           return true
+          break
         case "active":
           return !todo.completed
+          break
         case "completed":
           return todo.completed
+          break
         default:
           return true
       }
