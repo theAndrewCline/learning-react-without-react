@@ -53,27 +53,30 @@ export class App {
 
   render() {
     const completed = this.state.todosList.reduce((total, todo, index) => (
-      total += todo.completed ? 1 : 0
+      total += todo.completed ? 0 : 1
     ), 0)
 
     return `
-      <input class="new-todo"
-        placeholder="What needs to be done?"
-        value="${this.state.newTodo}">
-      <button class="add-todo">Add Todo</button>
-      <ul class="todos">
-        ${this.state.todosList.map((todo, i) => `
-        <li class="todo">
-          <input class="todo__completed-checkbox"
-            data-key="${i}"
-            type="checkbox"
-            ${todo.completed ? 'checked' : ''}>
-          <span>${todo.action}</span>
-          <button data-key="${i}" class="remove-todo">Remove</button>
-        </li>
-        `).join('')}
-      </ul>
-      <span class="todos-completed-count">Completed: ${completed}</span>
+      <h1 class="app-title">todos</h1>
+      <div class="app-container">
+        <input class="new-todo"
+          placeholder="What needs to be done?"
+          value="${this.state.newTodo}">
+        <button class="add-todo">Add Todo</button>
+        <ul class="todos">
+          ${this.state.todosList.map((todo, i) => `
+          <li class="todo">
+            <input class="todo__completed-checkbox"
+              data-key="${i}"
+              type="checkbox"
+              ${todo.completed ? 'checked' : ''}>
+            <span class="todo__action">${todo.action}</span>
+            <button data-key="${i}" class="remove-todo">X</button>
+          </li>
+          `).join('')}
+        </ul>
+        <span class="todos-completed-count">${completed} items left</span>
+      </div>
     `
   }
 
