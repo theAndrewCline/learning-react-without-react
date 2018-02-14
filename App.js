@@ -17,16 +17,7 @@ export class App {
     this.container = domContainer
   }
 
-  toggleCompleted(id) {
-    const todosList = [...this.state.todosList]
-    const index = todosList.findIndex(todo => todo.id === id)
-    todosList[index].completed = !todosList[index].completed
-
-    this.setState(_ => ({
-      todosList
-    }))
-  }
-
+  // update TODO list
   addTodo(newTodo) {
     const todosList = [...this.state.todosList]
     todosList.push({
@@ -67,24 +58,6 @@ export class App {
     }))
   }
 
-  filterList() {
-    return this.state.todosList.filter(todo => {
-      switch (this.state.filter) {
-        case "all":
-          return true
-          break
-        case "active":
-          return !todo.completed
-          break
-        case "completed":
-          return todo.completed
-          break
-        default:
-          return true
-      }
-    })
-  }
-
   changeFilter(evt) {
     if (evt.target.classList.contains('filter-all')) {
       this.setState(_ => ({
@@ -103,6 +76,37 @@ export class App {
     }
   }
 
+  // update TODO item
+  toggleCompleted(id) {
+    const todosList = [...this.state.todosList]
+    const index = todosList.findIndex(todo => todo.id === id)
+    todosList[index].completed = !todosList[index].completed
+
+    this.setState(_ => ({
+      todosList
+    }))
+  }
+
+  // view helper function
+  filterList() {
+    return this.state.todosList.filter(todo => {
+      switch (this.state.filter) {
+        case "all":
+          return true
+          break
+        case "active":
+          return !todo.completed
+          break
+        case "completed":
+          return todo.completed
+          break
+        default:
+          return true
+      }
+    })
+  }
+
+  // view helper function
   completed() {
     const completed = this.state.todosList.reduce((total, todo, index) => (
       total += todo.completed ? 0 : 1
@@ -113,9 +117,10 @@ export class App {
       : `${completed} items left`
   }
 
-  filterBtnState(state) {
-    let classNames = `filter-${state} filter-btn `
-    classNames += (state === this.state.filter)
+  // view helper function
+  filterBtnClassNames(filterState) {
+    let classNames = `filter-${filterState} filter-btn `
+    classNames += (filterState === this.state.filter)
       ? 'filter-btn--active'
       : ''
 
@@ -143,19 +148,15 @@ export class App {
           `).join('')}
         </ul>
         <div class="app-bottom-row">
-          <span class="todos-completed-count">
-            ${this.completed()}
-          </span>
+          <span class="todos-completed-count">${this.completed()}</span>
           <div class="todos-filter">
-            ${['all', 'active', 'completed'].map(state => (`
-              <button class="${this.filterBtnState(state)}">
-                ${state}
+            ${['all', 'active', 'completed'].map(filterState => (`
+              <button class="${this.filterBtnClassNames(filterState)}">
+                ${filterState}
               </button>`
             )).join('')}
           </div>
-          <button class="clear-completed">
-            Clear Completed
-          </button>
+          <button class="clear-completed">Clear Completed</button>
         </div>
       </div>
     `
