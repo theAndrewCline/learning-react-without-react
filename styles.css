@@ -87,6 +87,10 @@ html, body {
   margin: 0 10px;
 }
 
+.filter-btn--active {
+  background: red;
+}
+
 .clear-completed {
   font-size: 0.5em;
 }

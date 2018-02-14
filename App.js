@@ -98,6 +98,15 @@ export class App {
       : `${completed} items left`
   }
 
+  filterBtnState(state) {
+    let classNames = `filter-${state} filter-btn `
+    classNames += (state === this.state.filter)
+      ? 'filter-btn--active'
+      : ''
+
+    return classNames
+  }
+
   render() {
     return `
       <h1 class="app-title">todos</h1>
@@ -123,9 +132,11 @@ export class App {
             ${this.completed()}
           </span>
           <div class="todos-filter">
-            <button class="filter-all filter-btn">All</button>
-            <button class="filter-active filter-btn">Active</button>
-            <button class="filter-completed filter-btn">Completed</button>
+            ${['all', 'active', 'completed'].map(state => (`
+              <button class="${this.filterBtnState(state)}">
+                ${state}
+              </button>`
+            )).join('')}
           </div>
           <button class="clear-completed">
             Clear Completed
@@ -149,7 +160,10 @@ export class App {
    * because we don't have a vdom we
    * and are blowing away the whole app and rebuilding
    * we must reapply all of the event listeners
-   * this is terrible but a vdom takes care of this problem for us
+   *
+   * this is terrible practice
+   * but for now we don't want to bother ourselves with this problem
+   * because we get it solved for free when using React or similar vdom library
    */
   addEventListeners() {
     const addTodoBtn = this.container.querySelector('.add-todo')
