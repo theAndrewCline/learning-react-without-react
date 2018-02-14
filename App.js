@@ -2,9 +2,11 @@ export class App {
   constructor(domContainer) {
     this.state = {
       todosList: [{
+        id: 0,
         action: 'Get milk',
         completed: false
       }, {
+        id: 1,
         action: 'Dishes',
         completed: false
       }],
@@ -42,8 +44,10 @@ export class App {
     }))
   }
 
-  removeTodo(index) {
+  removeTodo(id) {
     const todosList = [...this.state.todosList]
+    const index = todosList.findIndex(todo => todo.id === id)
+
     todosList.splice(index, 1)
 
     this.setState(_ => ({
@@ -51,11 +55,50 @@ export class App {
     }))
   }
 
-  render() {
+  filterList() {
+    return this.state.todosList.filter(todo => {
+      switch (this.state.filter) {
+        case "all":
+          return true
+        case "active":
+          return !todo.completed
+        case "completed":
+          return todo.completed
+        default:
+          return true
+      }
+    })
+  }
+
+  changeFilter(evt) {
+    if (evt.target.classList.contains('filter-all')) {
+      this.setState(_ => ({
+        filter: 'all'
+      }))
+    }
+    if (evt.target.classList.contains('filter-active')) {
+      this.setState(_ => ({
+        filter: 'active'
+      }))
+    }
+    if (evt.target.classList.contains('filter-completed')) {
+      this.setState(_ => ({
+        filter: 'completed'
+      }))
+    }
+  }
+
+  completed() {
     const completed = this.state.todosList.reduce((total, todo, index) => (
       total += todo.completed ? 0 : 1
     ), 0)
 
+    return (completed === 1)
+      ? `1 item left`
+      : `${completed} items left`
+  }
+
+  render() {
     return `
       <h1 class="app-title">todos</h1>
       <div class="app-container">
@@ -64,29 +107,29 @@ export class App {
           value="${this.state.newTodo}">
         <button class="add-todo">Add Todo</button>
         <ul class="todos">
-          ${this.state.todosList.map((todo, i) => `
+          ${this.filterList().map(todo => `
           <li class="todo">
             <input class="todo__completed-checkbox"
-              data-key="${i}"
+              data-key="${todo.id}"
               type="checkbox"
               ${todo.completed ? 'checked' : ''}>
             <span class="todo__action">${todo.action}</span>
-            <button data-key="${i}" class="remove-todo">X</button>
+            <button data-key="${todo.id}" class="remove-todo">X</button>
           </li>
           `).join('')}
         </ul>
         <div class="app-bottom-row">
           <span class="todos-completed-count">
-            ${completed} items left
+            ${this.completed()}
           </span>
           <div class="todos-filter">
-            <button class="filter-btn">All</button>
-            <button class="filter-btn">Active</button>
-            <button class="filter-btn">Completed</button>
+            <button class="filter-all filter-btn">All</button>
+            <button class="filter-active filter-btn">Active</button>
+            <button class="filter-completed filter-btn">Completed</button>
           </div>
-          <span class="clear-completed">
+          <button class="clear-completed">
             Clear Completed
-          </span>
+          </button>
         </div>
       </div>
     `
@@ -129,9 +172,16 @@ export class App {
 
     const removeTodoButtons = this.container.querySelectorAll('.remove-todo')
     removeTodoButtons.forEach(btn => {
-      const index = Number(btn.dataset.key)
+      const id = Number(btn.dataset.key)
       btn.onclick = () => {
-        this.removeTodo(index)
+        this.removeTodo(id)
+      }
+    })
+
+    const filterBtns = this.container.querySelectorAll('.filter-btn')
+    filterBtns.forEach(btn => {
+      btn.onclick = (evt) => {
+        this.changeFilter(evt)
       }
     })
   }
