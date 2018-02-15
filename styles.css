@@ -77,6 +77,8 @@ html, body {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  border-top: solid 1px #eaeaea;
+  padding-top: 0.5em;
 }
 
 .todos-filter {
@@ -85,12 +87,18 @@ html, body {
 
 .filter-btn {
   margin: 0 10px;
+  background: none;
+  border: none;
 }
 
 .filter-btn--active {
-  background: red;
+  border: solid 1px gray;
+  border-radius: 3px;
 }
 
 .clear-completed {
   font-size: 0.5em;
+  background: none;
+  border: none;
+  margin-right: 10px;
 }

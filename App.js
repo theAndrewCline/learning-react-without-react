@@ -156,7 +156,7 @@ export class App {
               </button>`
             )).join('')}
           </div>
-          <button class="clear-completed">Clear Completed</button>
+          <button class="clear-completed">Clear completed</button>
         </div>
       </div>
     `
