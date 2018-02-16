@@ -130,11 +130,14 @@ export class App {
   render() {
     return `
       <h1 class="app-title">todos</h1>
+
       <div class="app-container">
+
         <input class="new-todo"
           placeholder="What needs to be done?"
           autofocus
           value="${this.state.newTodo}">
+
         <ul class="todos">
           ${this.filterList().map(todo => `
           <li class="todo">
@@ -147,6 +150,7 @@ export class App {
           </li>
           `).join('')}
         </ul>
+
         <div class="app-bottom-row">
           <span class="todos-completed-count">${this.completed()}</span>
           <div class="todos-filter">
@@ -158,6 +162,7 @@ export class App {
           </div>
           <button class="clear-completed">Clear completed</button>
         </div>
+
       </div>
     `
   }
